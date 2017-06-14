@@ -44,7 +44,8 @@ namespace WordpressAutomation
 
         public static void GoToNewPost()
         {
-            var message = Driver.Instance.FindElement(By.Id("message"));
+            WebDriverWait waitEditTitle = new WebDriverWait(Driver.Instance, TimeSpan.FromSeconds(5));
+            var message = waitEditTitle.Until(x => x.FindElement(By.Id("message")));
             var newPostlink = message.FindElements(By.TagName("a"))[0];
             newPostlink.Click();
         }
@@ -65,7 +66,7 @@ namespace WordpressAutomation
         private string postBody;
 
         private By titleInput = By.XPath("html/body/div[1]/div[2]/div[2]/div[1]/div[4]/form/div/div/div[1]/div[1]/div[1]/input");
-        private By publishButton = By.Id("publish");
+        private By publishButton = By.XPath("html/body/div[1]/div[2]/div[2]/div[1]/div[4]/form/div/div/div[2]/div/div[1]/div/div/div[2]/div[2]/input[2]");
 
         public CreatePostCommand(string postTitle)
         {
@@ -85,7 +86,7 @@ namespace WordpressAutomation
             Driver.Instance.SwitchTo().Frame("content_ifr");
             Driver.Instance.SwitchTo().ActiveElement().SendKeys(postBody);
             Driver.Instance.SwitchTo().DefaultContent();
-            Thread.Sleep(1000);
+            Thread.Sleep(5000);
 
             Driver.Instance.FindElement(publishButton).Click();
         }
