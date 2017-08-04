@@ -12,9 +12,6 @@ namespace WordpressAutomation
 {
     public class NewPostPage
     {
-        static By postButton = By.XPath("html/body/div[1]/div[1]/div[2]/ul/li[3]/a/div[3]");
-        static By addNewButton = By.XPath("html/body/div[1]/div[1]/div[2]/ul/li[3]/ul/li[3]/a");
-
         public static string Title
         {
             get
@@ -30,11 +27,7 @@ namespace WordpressAutomation
 
         public static void GoTo()
         {
-            Driver.Action.MoveToElement(Driver.Instance.FindElement(postButton)).Build().Perform();
-            WebDriverWait waitAddNew = new WebDriverWait(Driver.Instance, TimeSpan.FromSeconds(5));
-            var addNew = waitAddNew.Until(x => x.FindElement(addNewButton));
-            Actions hoverAction = Driver.Action.MoveToElement(addNew).Click();
-            hoverAction.Build().Perform();
+            LeftNavigation.Posts.AddNew.Select();
         }
 
         public static CreatePostCommand CreatePostWithTitle(string postTitle)
@@ -86,7 +79,8 @@ namespace WordpressAutomation
             Driver.Instance.SwitchTo().Frame("content_ifr");
             Driver.Instance.SwitchTo().ActiveElement().SendKeys(postBody);
             Driver.Instance.SwitchTo().DefaultContent();
-            Thread.Sleep(5000);
+
+            Driver.Sleep(TimeSpan.FromSeconds(5));
 
             Driver.Instance.FindElement(publishButton).Click();
         }

@@ -14,9 +14,6 @@ namespace WordpressTests
         [TestMethod]
         public void Can_Edit_A_Page()
         {
-            LoginPage.GoTo();
-            LoginPage.LoginAs("boyuanf").WithPassword("password").Login();
-
             ListPostsPage.GoTo(PostType.Page);
             ListPostsPage.SelectPost("Sample Page");
 

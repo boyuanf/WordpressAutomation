@@ -15,9 +15,6 @@ namespace WordpressTests
         [TestMethod]
         public void Can_Create_A_Basic_Post()
         {
-            LoginPage.GoTo();
-            LoginPage.LoginAs("boyuanf").WithPassword("password").Login();
-
             NewPostPage.GoTo();
             NewPostPage.CreatePostWithTitle("This is the test post title")
                 .WithBody("Hi, this is the body.")

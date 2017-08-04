@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
@@ -11,6 +12,11 @@ namespace WordpressAutomation
 
         public static Actions Action { get; set; }
 
+        public static string BaseAddress
+        {
+            get { return "http://localhost:17758/"; }
+        }
+
         public static void Initialize()
         {
             Instance = new FirefoxDriver();
@@ -21,6 +27,12 @@ namespace WordpressAutomation
         public static void Clean()
         {
             //Instance.Close();
+        }
+
+        public static void Sleep(TimeSpan timeSpan)
+        {
+            Thread.Sleep((int)(timeSpan.TotalSeconds * 1000));
+
         }
     }
 }
