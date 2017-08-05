@@ -9,11 +9,13 @@ namespace WordpressAutomation
     {
         public static void Select(string topLevelMenuId, string subMenuLinkText)
         {
-            Driver.Action.MoveToElement(Driver.Instance.FindElement(By.Id(topLevelMenuId))).Build().Perform();
+            var element = Driver.Instance.FindElement(By.Id(topLevelMenuId));
+            Actions action = new Actions(Driver.Instance);
+            action.MoveToElement(element).Build().Perform();
             WebDriverWait waitAddNew = new WebDriverWait(Driver.Instance, TimeSpan.FromSeconds(5));
             var addNew = waitAddNew.Until(x => x.FindElement(By.LinkText(subMenuLinkText)));
-            Actions hoverAction = Driver.Action.MoveToElement(addNew).Click();
-            hoverAction.Build().Perform();
+            action.MoveToElement(addNew).Click();
+            action.Build().Perform();
         }
     }
 }

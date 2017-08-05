@@ -21,6 +21,14 @@ namespace WordpressAutomation
                     MenuSelector.Select("menu-posts", "Add New");
                 }
             }
+
+            public class AllPosts
+            {
+                public static void Select()
+                {
+                    MenuSelector.Select("menu-posts", "All Posts");
+                }
+            }
         }
 
         public class Pages
@@ -36,6 +44,17 @@ namespace WordpressAutomation
                     //var allPages = waitAllPages.Until(x => x.FindElement(By.LinkText("All Pages")));
                     //Actions hoverAction = Driver.Action.MoveToElement(allPages).Click();
                     //hoverAction.Build().Perform();
+                }
+            }
+        }
+
+        public class Dashboard
+        {
+            public class Home
+            {
+                public static void Select()
+                {
+                    MenuSelector.Select("menu-dashboard", "Home");
                 }
             }
         }

@@ -13,6 +13,11 @@ namespace WordpressAutomation
         //static By h1Header = By.TagName("h1");  // can't wait the dashboardpage to be load before failure to find the element
         static By h1Header = By.XPath("html/body/div[1]/div[2]/div[2]/div[1]/div[4]/h1");
 
+        public static void GoTo()
+        {
+            LeftNavigation.Dashboard.Home.Select();
+        }
+
         public static bool IsAt
         {
             get

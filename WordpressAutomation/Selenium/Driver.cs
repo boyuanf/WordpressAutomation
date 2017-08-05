@@ -10,8 +10,6 @@ namespace WordpressAutomation
     {
         public static IWebDriver Instance { get; set; }
 
-        public static Actions Action { get; set; }
-
         public static string BaseAddress
         {
             get { return "http://localhost:17758/"; }
@@ -20,7 +18,6 @@ namespace WordpressAutomation
         public static void Initialize()
         {
             Instance = new FirefoxDriver();
-            Action = new Actions(Instance);
             Instance.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
         }
 
