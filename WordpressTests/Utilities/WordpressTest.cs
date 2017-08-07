@@ -15,6 +15,8 @@ namespace WordpressTests
         public void Init()
         {
             Driver.Initialize();
+            PostCreator.Initialize();
+
             LoginPage.GoTo();
             LoginPage.LoginAs("boyuanf").WithPassword("password").Login();
         }
@@ -22,6 +24,7 @@ namespace WordpressTests
         [TestCleanup]
         public void Cleanup()
         {
+            PostCreator.Cleanup();
             Driver.Clean();
         }
     }

@@ -18,22 +18,35 @@ namespace WordpressTests.PostsTests
             DashboardPage.GoTo();
 
             // Add a new post
-            NewPostPage.GoTo();
-            NewPostPage.CreatePostWithTitle("Added posts show up, title")
-                .WithBody("Added posts show up, body")
-                .Publish();
+            PostCreator.CreatePost();
 
             // Go to posts, get new posts count
             ListPostsPage.GoTo(PostType.Posts);
             Assert.AreEqual(ListPostsPage.PreviousPostCount+1, ListPostsPage.CurrentPostCount, "Count of posts did not increase");
 
             // Check for the added post
-            Assert.IsTrue(ListPostsPage.DoesPostExistWithTitle("Added posts show up, title"));
+            Assert.IsTrue(ListPostsPage.DoesPostExistWithTitle(PostCreator.PreviousTitle));
 
             // Trash post (clean up)
-            ListPostsPage.TrashPost("Added posts show up, title");
+            PostCreator.TrashPost();
             Assert.AreEqual(ListPostsPage.PreviousPostCount, ListPostsPage.CurrentPostCount, "Couldn't trash post");
 
+        }
+
+        [TestMethod]
+        public void Can_Search_Posts()
+        {
+            // Create a new post
+            PostCreator.CreatePost();
+
+            // Search for post
+            ListPostsPage.SearchForPost(PostCreator.PreviousTitle);
+
+            // Check that post shows up in results
+            Assert.IsTrue(ListPostsPage.DoesPostExistWithTitle(PostCreator.PreviousTitle));
+
+            // Cleanup (Trash post)
+            // Automatically clean up by WordpressTests class
         }
     }
 }

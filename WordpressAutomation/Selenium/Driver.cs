@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -18,7 +19,7 @@ namespace WordpressAutomation
         public static void Initialize()
         {
             Instance = new FirefoxDriver();
-            Instance.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
+            TurnOnWait();
         }
 
         public static void Clean()
@@ -30,6 +31,23 @@ namespace WordpressAutomation
         {
             Thread.Sleep((int)(timeSpan.TotalSeconds * 1000));
 
+        }
+
+        public static void NoWait(Action action)
+        {
+            TurnOffWait();
+            action();
+            TurnOnWait();
+        }
+
+        private static void TurnOnWait()
+        {
+            Instance.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
+        }
+
+        private static void TurnOffWait()
+        {
+            Instance.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(0));
         }
     }
 }

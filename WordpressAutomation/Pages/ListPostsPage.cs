@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,14 @@ namespace WordpressAutomation
 
                 case PostType.Posts:
                     LeftNavigation.Posts.AllPosts.Select();
+
+                    // Demo how to log if error in the test framework
+                    //if (IsAt)
+                    //    Error.Log("Did not navigate to all posts!");
+
                     break;
+
+
             }
         }
 
@@ -66,7 +74,8 @@ namespace WordpressAutomation
             var rows = Driver.Instance.FindElements(By.TagName("tr"));
             foreach (var row in rows)
             {
-                ReadOnlyCollection<IWebElement> links = row.FindElements(By.LinkText(title));
+                ReadOnlyCollection<IWebElement> links = null;
+                Driver.NoWait(() => links = row.FindElements(By.LinkText(title)));
                 if (links.Count > 0)
                 {
                     Actions moveAction = new Actions(Driver.Instance);
@@ -76,6 +85,35 @@ namespace WordpressAutomation
                 }
             }
 
+        }
+
+        public static void SearchForPost(string searchString)
+        {
+            if (!IsAt)
+                GoTo(PostType.Posts);
+
+            var searchBox = Driver.Instance.FindElement(By.Id("post-search-input"));
+            searchBox.SendKeys(searchString);
+
+            var searchButton = Driver.Instance.FindElement(By.Id("search-submit"));
+            searchButton.Click();
+
+        }
+
+        static By h1Header = By.XPath("html/body/div[1]/div[2]/div[2]/div[1]/div[4]/h1");
+
+        public static bool IsAt
+        {
+            get
+            {
+                var h1Tag = Driver.Instance.FindElements(h1Header);
+                if (h1Tag.Count > 0)
+                {
+                    return h1Tag[0].Text == "Posts";
+                }
+                return false;
+            }
+            
         }
     }
 
